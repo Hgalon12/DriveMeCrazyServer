@@ -2,7 +2,7 @@
 {
     public class StatusCarDto
     { 
-            public int Id { get; set; }
+        public int Id { get; set; }
         public string DescriptionCar { get; set; } = null;
        
         public StatusCarDto(Models.StatusCar statusCar)

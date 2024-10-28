@@ -6,7 +6,7 @@
         public int TypeId { get; set; }
         public int NumOfPlaces { get; set; }
         public int OwnerId { get; set; }
-        public string NickName { get; set; } = null;
+        public string NickName { get; set; } = null!;
         public int NumOfCars { get; set; }
         public TableCarDto(Models.TableCar modelCar ) 
         {

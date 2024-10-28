@@ -26,16 +26,16 @@
         }
         public  Models.RequestCar GetModel()
         {
-       Models.RequestCar request = new Models.RequestCar();
-         request.RequestId = this.RequestId;
-        request.UserId = this.UserId;
-        request.IdCar = this.IdCar;
-        request.WhenIneedthecar = this.WhenIneedthecar;
-        request.Reason = this.Reason;
-       request.StatusId = this.StatusId;
+
+          Models.RequestCar request = new Models.RequestCar();
+          request.RequestId = this.RequestId;
+          request.UserId = this.UserId;
+          request.IdCar = this.IdCar;
+          request.WhenIneedthecar = this.WhenIneedthecar;
+          request.Reason = this.Reason;
+          request.StatusId = this.StatusId;
 
             return request;
-
         }
 
     }

@@ -13,7 +13,7 @@
 
             public int IdCar { get; set; }
 
-            public DateOnly? ReportDate { get; set; }
+          public DateOnly? ReportDate { get; set; }
          public ReportDto(Models.Report modelReport)
         {
             this.AssignmentId = modelReport.AssignmentId;

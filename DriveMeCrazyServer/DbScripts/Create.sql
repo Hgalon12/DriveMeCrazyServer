@@ -125,6 +125,14 @@ ALTER ROLE db_owner ADD MEMBER [CarsAdminUser];
 Go
 
 
-SELECT * FROM TableUsers
+SELECT * FROM StatusCar
+insert into TableUsers values('Hadas', '12345','Galon','Hadas@gmail.com','1111','23232','0546287507')
+insert into CarType values(1,'suv')
+insert into CarType values(2,'familycar')
+insert into StatusCar values('approve')
+insert into StatusCar values('pennding')
+insert into StatusCar values('rejected')
+
+
 
 --scaffold-DbContext "Server = (localdb)\MSSQLLocalDB;Initial Catalog= DriveMeCrazyDB;User ID=CarsAdminLogin;Password=Hg2501;" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir Models -Context DriveMeCrazyDbContext -DataAnnotations –force
