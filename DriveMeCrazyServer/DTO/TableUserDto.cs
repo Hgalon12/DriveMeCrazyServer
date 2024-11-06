@@ -18,6 +18,7 @@
         public string InsurantNum { get; set; } = null!;
 
         public string UserPhoneNum { get; set; } = null!;
+        public string ProfileImagePath { get; set; } = "";
         public TableUserDto(Models.TableUser modleUser)
         {
             this.Id = modleUser.Id;
