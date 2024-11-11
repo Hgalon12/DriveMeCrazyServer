@@ -125,7 +125,7 @@ ALTER ROLE db_owner ADD MEMBER [CarsAdminUser];
 Go
 
 
-SELECT * FROM StatusCar
+SELECT * FROM TableUsers
 insert into TableUsers values('Hadas', '12345','Galon','Hadas@gmail.com','1111','23232','0546287507')
 insert into CarType values(1,'suv')
 insert into CarType values(2,'familycar')
