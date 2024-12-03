@@ -26,7 +26,6 @@ CREATE TABLE TableUsers
     UserLastName NVARCHAR(50) NOT NULL,
     UserEmail NVARCHAR(50) UNIQUE NOT NULL,
     UserPassword NVARCHAR(50) NOT NULL,
-    InsurantNum NVARCHAR(50) NOT NULL,
     UserPhoneNum NVARCHAR(50) NOT NULL
 );
 
@@ -44,7 +43,6 @@ CREATE TABLE CarType
 
 CREATE TABLE TableCars
 (
-    NumOfCars INT NOT NULL,
     IdCar INT NOT NULL PRIMARY KEY,
     TypeID INT NOT NULL,
     NumOfPlaces INT NOT NULL,
@@ -58,6 +56,7 @@ CREATE TABLE DriversCar
 (
     UserId INT NOT NULL,
     IdCar INT NOT NULL,
+    [Status] int not null FOREIGN KEY REFERENCES StatusCar(Id),
     PRIMARY KEY (UserId, IdCar),
     FOREIGN KEY (UserId) REFERENCES TableUsers(Id),
     FOREIGN KEY (IdCar) REFERENCES TableCars(IdCar)
@@ -126,12 +125,16 @@ Go
 
 
 SELECT * FROM TableUsers
-insert into TableUsers values('Hadas', '12345','Galon','Hadas@gmail.com','1111','23232','0546287507')
+insert into TableUsers values('Hadas', '12345','Galon','Hadas@gmail.com','1111','0546287507')
 insert into CarType values(1,'suv')
 insert into CarType values(2,'familycar')
 insert into StatusCar values('approve')
 insert into StatusCar values('pennding')
 insert into StatusCar values('rejected')
+SELECT * FROM CarType
+
+
+
 
 
 

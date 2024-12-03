@@ -8,8 +8,6 @@ namespace DriveMeCrazyServer.Models;
 
 public partial class TableCar
 {
-    public int NumOfCars { get; set; }
-
     [Key]
     public int IdCar { get; set; }
 

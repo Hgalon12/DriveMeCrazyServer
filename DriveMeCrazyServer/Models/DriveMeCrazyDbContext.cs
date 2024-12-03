@@ -43,87 +43,91 @@ public partial class DriveMeCrazyDbContext : DbContext
     {
         modelBuilder.Entity<CarType>(entity =>
         {
-            entity.HasKey(e => e.IdCarType).HasName("PK__CarType__16CCFD67EBF0F604");
+            entity.HasKey(e => e.IdCarType).HasName("PK__CarType__16CCFD67AE235B8E");
 
             entity.Property(e => e.IdCarType).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<ChoresType>(entity =>
         {
-            entity.HasKey(e => e.ChoreId).HasName("PK__ChoresTy__F0F94F34A751AE35");
+            entity.HasKey(e => e.ChoreId).HasName("PK__ChoresTy__F0F94F34CA4EB4DB");
 
             entity.HasOne(d => d.IdCarNavigation).WithMany(p => p.ChoresTypes)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ChoresTyp__IdCar__32E0915F");
+                .HasConstraintName("FK__ChoresTyp__IdCar__33D4B598");
         });
 
         modelBuilder.Entity<DriversCar>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.IdCar }).HasName("PK__DriversC__8772B4490DF0851B");
+            entity.HasKey(e => new { e.UserId, e.IdCar }).HasName("PK__DriversC__8772B449E05E2E33");
 
             entity.HasOne(d => d.IdCarNavigation).WithMany(p => p.DriversCars)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__DriversCa__IdCar__300424B4");
+                .HasConstraintName("FK__DriversCa__IdCar__30F848ED");
+
+            entity.HasOne(d => d.StatusNavigation).WithMany(p => p.DriversCars)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__DriversCa__Statu__2F10007B");
 
             entity.HasOne(d => d.User).WithMany(p => p.DriversCars)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__DriversCa__UserI__2F10007B");
+                .HasConstraintName("FK__DriversCa__UserI__300424B4");
         });
 
         modelBuilder.Entity<Pic>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Pic__3214EC07F8F7D6F8");
+            entity.HasKey(e => e.Id).HasName("PK__Pic__3214EC07CB728C95");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
             entity.HasOne(d => d.IdNavigation).WithOne(p => p.Pic)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Pic__Id__3C69FB99");
+                .HasConstraintName("FK__Pic__Id__3D5E1FD2");
         });
 
         modelBuilder.Entity<PicChore>(entity =>
         {
-            entity.HasKey(e => e.PicId).HasName("PK__PicChore__B04A93C1E5E1C4DE");
+            entity.HasKey(e => e.PicId).HasName("PK__PicChore__B04A93C1E25F5AC0");
 
             entity.HasOne(d => d.Assignment).WithMany(p => p.PicChores)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PicChores__Assig__398D8EEE");
+                .HasConstraintName("FK__PicChores__Assig__3A81B327");
         });
 
         modelBuilder.Entity<Report>(entity =>
         {
-            entity.HasKey(e => e.AssignmentId).HasName("PK__Report__32499E77E3180958");
+            entity.HasKey(e => e.AssignmentId).HasName("PK__Report__32499E77DF496025");
 
             entity.HasOne(d => d.Chore).WithMany(p => p.Reports)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Report__ChoreId__36B12243");
+                .HasConstraintName("FK__Report__ChoreId__37A5467C");
 
             entity.HasOne(d => d.DriversCar).WithMany(p => p.Reports)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Report__35BCFE0A");
+                .HasConstraintName("FK__Report__36B12243");
         });
 
         modelBuilder.Entity<RequestCar>(entity =>
         {
-            entity.HasKey(e => e.RequestId).HasName("PK__RequestC__33A8517AC5C2F654");
+            entity.HasKey(e => e.RequestId).HasName("PK__RequestC__33A8517ACD8BB080");
 
             entity.HasOne(d => d.Status).WithMany(p => p.RequestCars)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__RequestCa__Statu__403A8C7D");
+                .HasConstraintName("FK__RequestCa__Statu__412EB0B6");
 
             entity.HasOne(d => d.DriversCar).WithMany(p => p.RequestCars)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__RequestCar__3F466844");
+                .HasConstraintName("FK__RequestCar__403A8C7D");
         });
 
         modelBuilder.Entity<StatusCar>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__StatusCa__3214EC0708EB2D16");
+            entity.HasKey(e => e.Id).HasName("PK__StatusCa__3214EC074CC05682");
         });
 
         modelBuilder.Entity<TableCar>(entity =>
         {
-            entity.HasKey(e => e.IdCar).HasName("PK__TableCar__0FA780586930406F");
+            entity.HasKey(e => e.IdCar).HasName("PK__TableCar__0FA7805867878838");
 
             entity.Property(e => e.IdCar).ValueGeneratedNever();
 
@@ -138,7 +142,7 @@ public partial class DriveMeCrazyDbContext : DbContext
 
         modelBuilder.Entity<TableUser>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__TableUse__3214EC0752DB3C7F");
+            entity.HasKey(e => e.Id).HasName("PK__TableUse__3214EC07B7C95185");
         });
 
         OnModelCreatingPartial(modelBuilder);

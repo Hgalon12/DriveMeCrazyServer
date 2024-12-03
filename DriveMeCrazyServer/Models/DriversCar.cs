@@ -16,6 +16,8 @@ public partial class DriversCar
     [Key]
     public int IdCar { get; set; }
 
+    public int Status { get; set; }
+
     [ForeignKey("IdCar")]
     [InverseProperty("DriversCars")]
     public virtual TableCar IdCarNavigation { get; set; } = null!;
@@ -25,6 +27,10 @@ public partial class DriversCar
 
     [InverseProperty("DriversCar")]
     public virtual ICollection<RequestCar> RequestCars { get; set; } = new List<RequestCar>();
+
+    [ForeignKey("Status")]
+    [InverseProperty("DriversCars")]
+    public virtual StatusCar StatusNavigation { get; set; } = null!;
 
     [ForeignKey("UserId")]
     [InverseProperty("DriversCars")]

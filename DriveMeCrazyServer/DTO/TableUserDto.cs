@@ -15,8 +15,6 @@
 
         public string UserPassword { get; set; } = null!;
 
-        public string InsurantNum { get; set; } = null!;
-
         public string UserPhoneNum { get; set; } = null!;
         public string ProfileImagePath { get; set; } = "";
         public TableUserDto(Models.TableUser modleUser)
@@ -27,7 +25,6 @@
             this.UserLastName = modleUser.UserLastName;
             this.UserEmail = modleUser.UserEmail;
             this.UserPassword = modleUser.UserPassword;
-            this.InsurantNum = modleUser.InsurantNum;
             this.UserPhoneNum = modleUser.UserPhoneNum;
 
         }
@@ -40,7 +37,6 @@
             u.UserLastName = this.UserLastName;
             u.UserEmail = this.UserEmail;
             u.UserPassword = this.UserPassword;
-            u.InsurantNum= this.InsurantNum;
             u.UserPhoneNum= this.UserPhoneNum;
             return u;
         }

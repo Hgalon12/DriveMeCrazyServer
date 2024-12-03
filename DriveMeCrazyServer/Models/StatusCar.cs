@@ -15,6 +15,9 @@ public partial class StatusCar
     [StringLength(50)]
     public string DescriptionCar { get; set; } = null!;
 
+    [InverseProperty("StatusNavigation")]
+    public virtual ICollection<DriversCar> DriversCars { get; set; } = new List<DriversCar>();
+
     [InverseProperty("Status")]
     public virtual ICollection<RequestCar> RequestCars { get; set; } = new List<RequestCar>();
 }
