@@ -9,6 +9,8 @@
         public string NickName { get; set; } = null!;
 
         public string ProfileImagePath { get; set; } = "";
+        
+        public TableCarDto() { }
         public TableCarDto(Models.TableCar modelCar ) 
         {
             this.IdCar=modelCar.IdCar;

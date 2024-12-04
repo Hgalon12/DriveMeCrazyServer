@@ -132,6 +132,7 @@ insert into StatusCar values('approve')
 insert into StatusCar values('pennding')
 insert into StatusCar values('rejected')
 SELECT * FROM CarType
+select * from TableCars
 
 
 

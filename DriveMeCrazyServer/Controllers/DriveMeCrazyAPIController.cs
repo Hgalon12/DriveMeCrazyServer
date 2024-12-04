@@ -77,32 +77,32 @@ public class DriveMeCrazyAPIController : ControllerBase
         }
 
     }
-    //[HttpPost("registerCar")]
-    //public IActionResult RegisterCar([FromBody] DriveMeCrazyServer.DTO.TableCarDto carDto)
-    //{
-    //    try
-    //    {
-    //        HttpContext.Session.Clear(); //Logout any previous login attempt
+    [HttpPost("registerCar")]
+    public IActionResult RegisterCar([FromBody] DriveMeCrazyServer.DTO.TableCarDto carDto)
+    {
+        try
+        {
+            HttpContext.Session.Clear(); //Logout any previous login attempt
 
-    //        //Create model user class
-    //        DriveMeCrazyServer.Models.TableCar modelsUser = carDto.GetModel();
+            //Create model user class
+            DriveMeCrazyServer.Models.TableCar modelsUser = carDto.GetModel();
 
-    //        context.TableCars.Add(modelsUser);
-    //        context.SaveChanges();
+            context.TableCars.Add(modelsUser);
+            context.SaveChanges();
 
-    //        //User was added!
-    //        DriveMeCrazyServer.DTO.TableCarDto dtoUser = new DriveMeCrazyServer.DTO.TableCarDto(modelsUser);
-    //        dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.IdCar);
-    //        return Ok(dtoUser);
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        return BadRequest(ex.Message);
-    //    }
+            //User was added!
+            DriveMeCrazyServer.DTO.TableCarDto dtoUser = new DriveMeCrazyServer.DTO.TableCarDto(modelsUser);
+            dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.IdCar);
+            return Ok(dtoUser);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
 
-    //}
+    }
 
-    
+
 
     [HttpPost("UploadProfileImage")]
     public async Task<IActionResult> UploadProfileImageAsync(IFormFile file)
