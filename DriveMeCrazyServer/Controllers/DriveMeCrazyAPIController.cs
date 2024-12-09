@@ -1,5 +1,6 @@
 ﻿using DriveMeCrazyServer.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 
 [Route("api")]
@@ -84,16 +85,16 @@ public class DriveMeCrazyAPIController : ControllerBase
         {
             HttpContext.Session.Clear(); //Logout any previous login attempt
 
-            //Create model user class
-            DriveMeCrazyServer.Models.TableCar modelsUser = carDto.GetModel();
+            //Create model car class
+            DriveMeCrazyServer.Models.TableCar modelsCar = carDto.GetModel();
 
-            context.TableCars.Add(modelsUser);
+            context.TableCars.Add(modelsCar);
             context.SaveChanges();
 
-            //User was added!
-            DriveMeCrazyServer.DTO.TableCarDto dtoUser = new DriveMeCrazyServer.DTO.TableCarDto(modelsUser);
-            dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.IdCar);
-            return Ok(dtoUser);
+            //Car was added!
+            DriveMeCrazyServer.DTO.TableCarDto dtoCar = new DriveMeCrazyServer.DTO.TableCarDto(modelsCar);
+            dtoCar.CarImagePath = GetProfileImageVirtualPath(dtoCar.IdCar);
+            return Ok(dtoCar);
         }
         catch (Exception ex)
         {
@@ -102,7 +103,34 @@ public class DriveMeCrazyAPIController : ControllerBase
 
     }
 
+    [HttpPost("UploadCarImage")]
+    public async Task<IActionResult> UploadCarImageAsync(IFormFile file, [FromQuery] int carId)
+    {
+        //Check if who is logged in
+        string? userEmail = HttpContext.Session.GetString("loggedInUser");
+        if (string.IsNullOrEmpty(userEmail))
+        {
+            return Unauthorized("User is not logged in");
+        }
 
+        TableCar? car = context.TableCars.Where(c => c.IdCar == carId).FirstOrDefault();
+        if (car == null)
+        {
+            return BadRequest();
+        }
+
+        string path = $"\\carImages\\{carId}";
+
+        HttpStatusCode result =  await UploadImageAsync(file, path);
+
+        if (result != HttpStatusCode.OK)
+            return BadRequest();
+
+        DriveMeCrazyServer.DTO.TableCarDto dtoCar = new DriveMeCrazyServer.DTO.TableCarDto(car);
+        dtoCar.CarImagePath = GetCarImageVirtualPath(dtoCar.IdCar);
+        return Ok(dtoCar);
+
+    }
 
     [HttpPost("UploadProfileImage")]
     public async Task<IActionResult> UploadProfileImageAsync(IFormFile file)
@@ -124,7 +152,20 @@ public class DriveMeCrazyAPIController : ControllerBase
             return Unauthorized("User is not found in the database");
         }
 
+        string path = $"\\profileImages\\{user.Id}";
+        HttpStatusCode result =  await UploadImageAsync(file, path);
 
+        if (result != HttpStatusCode.OK)
+            return BadRequest();
+
+        DriveMeCrazyServer.DTO.TableUserDto dtoUser = new DriveMeCrazyServer.DTO.TableUserDto(user);
+        dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.Id);
+        return Ok(dtoUser);
+
+    }
+
+    private async Task<HttpStatusCode> UploadImageAsync(IFormFile file, string path)
+    {
         //Read all files sent
         long imagesSize = 0;
 
@@ -140,11 +181,11 @@ public class DriveMeCrazyAPIController : ControllerBase
             if (!allowedExtentions.Where(e => e == extention).Any())
             {
                 //Extention is not supported
-                return BadRequest("File sent with non supported extention");
+                return HttpStatusCode.BadRequest;
             }
 
             //Build path in the web root (better to a specific folder under the web root
-            string filePath = $"{this.webHostEnvironment.WebRootPath}\\profileImages\\{user.Id}{extention}";
+            string filePath = $"{this.webHostEnvironment.WebRootPath}{path}{extention}";
 
             using (var stream = System.IO.File.Create(filePath))
             {
@@ -164,9 +205,7 @@ public class DriveMeCrazyAPIController : ControllerBase
 
         }
 
-        DriveMeCrazyServer.DTO.TableUserDto dtoUser = new DriveMeCrazyServer.DTO.TableUserDto(user);
-        dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.Id);
-        return Ok(dtoUser);
+        return HttpStatusCode.OK;
     }
 
     //Helper functions
@@ -230,6 +269,30 @@ public class DriveMeCrazyAPIController : ControllerBase
             else
             {
                 virtualPath = $"/profileImages/default.png";
+            }
+        }
+
+        return virtualPath;
+    }
+
+    private string GetCarImageVirtualPath(int carId)
+    {
+        string virtualPath = $"/carImages/{carId}";
+        string path = $"{this.webHostEnvironment.WebRootPath}\\carImages\\{carId}.png";
+        if (System.IO.File.Exists(path))
+        {
+            virtualPath += ".png";
+        }
+        else
+        {
+            path = $"{this.webHostEnvironment.WebRootPath}\\carImages\\{carId}.jpg";
+            if (System.IO.File.Exists(path))
+            {
+                virtualPath += ".jpg";
+            }
+            else
+            {
+                virtualPath = $"/carImages/default.png";
             }
         }
 
