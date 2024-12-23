@@ -1,4 +1,5 @@
-﻿using DriveMeCrazyServer.Models;
+﻿using DriveMeCrazyServer.DTO;
+using DriveMeCrazyServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -240,7 +241,56 @@ public class DriveMeCrazyAPIController : ControllerBase
     }
 
 
-   
+
+
+
+
+
+
+
+
+
+
+    [HttpPost("updateprofile")]
+    public async Task<IActionResult> UpdateProfile([FromBody] TableUserDto userDto)
+    {
+        if (userDto == null)
+        {
+            return BadRequest("User data is null");
+        }
+
+        // חיפוש המשתמש לפי Id
+        var user = await context.TableUsers.FindAsync(userDto.Id);
+
+        if (user == null)
+        {
+            return NotFound($"User with ID {userDto.Id} not found");
+        }
+
+        // עדכון השדות של המשתמש
+        user.UserName = userDto.UserName;
+        user.UserLastName = userDto.UserLastName;
+        user.UserEmail = userDto.UserEmail;
+        user.UserPassword = userDto.UserPassword;
+        user.UserPhoneNum = userDto.UserPhoneNum;
+        user.CarId = userDto.CarId;
+       
+
+        try
+        {
+            // שמירת השינויים למסד הנתונים
+            await context.SaveChangesAsync();
+            return Ok(new { message = "Profile updated successfully" });
+        }
+        catch (Exception ex)
+        {
+            // טיפול בשגיאות
+            return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred", error = ex.Message });
+        }
+    }
+
+
+
 
 
 
