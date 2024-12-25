@@ -11,7 +11,7 @@
 
             public int UserId { get; set; }
 
-            public int IdCar { get; set; }
+            public string IdCar { get; set; } = null!;
 
           public DateOnly? ReportDate { get; set; }
          public ReportDto(Models.Report modelReport)

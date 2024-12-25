@@ -10,7 +10,7 @@ namespace DriveMeCrazyServer.DTO
 
         public int Score { get; set; }
 
-        public int IdCar { get; set; }
+        public string IdCar { get; set; } = null!;
         public ChoreTypeDto(Models.ChoresType modelChore)
         {
             this.ChoreId = modelChore.ChoreId;

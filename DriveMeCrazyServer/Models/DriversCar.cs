@@ -14,7 +14,8 @@ public partial class DriversCar
     public int UserId { get; set; }
 
     [Key]
-    public int IdCar { get; set; }
+    [StringLength(50)]
+    public string IdCar { get; set; } = null!;
 
     public int Status { get; set; }
 

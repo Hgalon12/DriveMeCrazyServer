@@ -106,14 +106,14 @@ public class DriveMeCrazyAPIController : ControllerBase
     }
 
     [HttpPost("UploadCarImage")]
-    public async Task<IActionResult> UploadCarImageAsync(IFormFile file, [FromQuery] int carId)
+    public async Task<IActionResult> UploadCarImageAsync(IFormFile file, [FromQuery] string carId)
     {
         //Check if who is logged in
-        string? userEmail = HttpContext.Session.GetString("loggedInUser");
-        if (string.IsNullOrEmpty(userEmail))
-        {
-            return Unauthorized("User is not logged in");
-        }
+        //string? userEmail = HttpContext.Session.GetString("loggedInUser");
+        //if (string.IsNullOrEmpty(userEmail))
+        //{
+        //    return Unauthorized("User is not logged in");
+        //}
 
         TableCar? car = context.TableCars.Where(c => c.IdCar == carId).FirstOrDefault();
         if (car == null)
@@ -242,15 +242,6 @@ public class DriveMeCrazyAPIController : ControllerBase
 
 
 
-
-
-
-
-
-
-
-
-
     [HttpPost("updateprofile")]
     public async Task<IActionResult> UpdateProfile([FromBody] TableUserDto userDto)
     {
@@ -329,7 +320,7 @@ public class DriveMeCrazyAPIController : ControllerBase
         return virtualPath;
     }
 
-    private string GetCarImageVirtualPath(int carId)
+    private string GetCarImageVirtualPath(string carId)
     {
         string virtualPath = $"/carImages/{carId}";
         string path = $"{this.webHostEnvironment.WebRootPath}\\carImages\\{carId}.png";
@@ -355,6 +346,9 @@ public class DriveMeCrazyAPIController : ControllerBase
 
 
 
+
+
+   
 
 }
 

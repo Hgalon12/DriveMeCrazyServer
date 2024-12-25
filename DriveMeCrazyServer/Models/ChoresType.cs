@@ -17,7 +17,8 @@ public partial class ChoresType
     [Key]
     public int ChoreId { get; set; }
 
-    public int IdCar { get; set; }
+    [StringLength(50)]
+    public string IdCar { get; set; } = null!;
 
     [ForeignKey("IdCar")]
     [InverseProperty("ChoresTypes")]

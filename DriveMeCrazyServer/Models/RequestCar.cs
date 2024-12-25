@@ -11,7 +11,8 @@ public partial class RequestCar
 {
     public int UserId { get; set; }
 
-    public int IdCar { get; set; }
+    [StringLength(50)]
+    public string IdCar { get; set; } = null!;
 
     [StringLength(50)]
     public string WhenIneedthecar { get; set; } = null!;

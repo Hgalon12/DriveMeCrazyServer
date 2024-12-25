@@ -35,27 +35,19 @@ CREATE TABLE StatusCar
     DescriptionCar NVARCHAR(50) NOT NULL
 );
 
-CREATE TABLE CarType
-(
-    IdCarType INT NOT NULL PRIMARY KEY, 
-    TypeName NVARCHAR(50) NOT NULL
-);
 
 CREATE TABLE TableCars
 (
-    IdCar INT NOT NULL PRIMARY KEY,
-    TypeID INT NOT NULL,
-    NumOfPlaces INT NOT NULL,
+    IdCar NVARCHAR(50) NOT NULL PRIMARY KEY,
     OwnerId INT NOT NULL,  -- Ensure this is INT to match TableUsers.Id
     NickName NVARCHAR(50) NOT NULL,
-    FOREIGN KEY (TypeID) REFERENCES CarType(IdCarType),
     FOREIGN KEY (OwnerId) REFERENCES TableUsers(Id)  -- Ensure consistency
 );
 
 CREATE TABLE DriversCar
 (
     UserId INT NOT NULL,
-    IdCar INT NOT NULL,
+    IdCar NVARCHAR(50)  NOT NULL,
     [Status] int not null FOREIGN KEY REFERENCES StatusCar(Id),
     PRIMARY KEY (UserId, IdCar),
     FOREIGN KEY (UserId) REFERENCES TableUsers(Id),
@@ -67,7 +59,7 @@ CREATE TABLE ChoresType
     NameChore NVARCHAR(50) NOT NULL,
     Score INT NOT NULL,
     ChoreId INT PRIMARY KEY IDENTITY,
-    IdCar INT NOT NULL,
+    IdCar NVARCHAR(50)  NOT NULL,
     FOREIGN KEY (IdCar) REFERENCES TableCars(IdCar)
 );
 
@@ -77,7 +69,7 @@ CREATE TABLE Report
     AssignmentId INT PRIMARY KEY IDENTITY,
     ChoreId INT NOT NULL,
     UserId INT NOT NULL,
-    IdCar INT NOT NULL,
+    IdCar NVARCHAR(50) NOT NULL,
     ReportDate DATE,
     FOREIGN KEY (UserId, IdCar) REFERENCES DriversCar(UserId, IdCar),  -- Reference composite key
     FOREIGN KEY (ChoreId) REFERENCES ChoresType(ChoreId)
@@ -103,7 +95,7 @@ CREATE TABLE Pic
 CREATE TABLE RequestCar
 (
     UserId INT NOT NULL,
-    IdCar INT NOT NULL,
+    IdCar NVARCHAR(50) NOT NULL,
     WhenIneedthecar NVARCHAR(50) NOT NULL,
     Reason NVARCHAR(50) NOT NULL,
     RequestId INT PRIMARY KEY IDENTITY, 
@@ -126,13 +118,13 @@ Go
 
 SELECT * FROM TableUsers
 insert into TableUsers values('Hadas', '12345','Galon','Hadas@gmail.com','1111','0546287507')
-insert into CarType values(1,'suv')
-insert into CarType values(2,'familycar')
+
 insert into StatusCar values('approve')
 insert into StatusCar values('pennding')
 insert into StatusCar values('rejected')
 SELECT * FROM CarType
 select * from TableCars
+select *from StatusCar
 
 
 

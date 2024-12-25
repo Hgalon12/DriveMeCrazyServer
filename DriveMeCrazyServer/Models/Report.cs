@@ -18,7 +18,8 @@ public partial class Report
 
     public int UserId { get; set; }
 
-    public int IdCar { get; set; }
+    [StringLength(50)]
+    public string IdCar { get; set; } = null!;
 
     public DateOnly? ReportDate { get; set; }
 

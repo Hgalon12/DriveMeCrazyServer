@@ -9,12 +9,8 @@ namespace DriveMeCrazyServer.Models;
 public partial class TableCar
 {
     [Key]
-    public int IdCar { get; set; }
-
-    [Column("TypeID")]
-    public int TypeId { get; set; }
-
-    public int NumOfPlaces { get; set; }
+    [StringLength(50)]
+    public string IdCar { get; set; } = null!;
 
     public int OwnerId { get; set; }
 
@@ -30,8 +26,4 @@ public partial class TableCar
     [ForeignKey("OwnerId")]
     [InverseProperty("TableCars")]
     public virtual TableUser Owner { get; set; } = null!;
-
-    [ForeignKey("TypeId")]
-    [InverseProperty("TableCars")]
-    public virtual CarType Type { get; set; } = null!;
 }

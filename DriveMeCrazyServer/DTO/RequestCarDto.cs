@@ -7,13 +7,14 @@
 
             public int UserId { get; set; }
 
-            public int IdCar { get; set; }
+             public string IdCar { get; set; } = null!;
 
             public string WhenIneedthecar { get; set; } =null;
 
             public string Reason { get; set; } = null;
 
             public int StatusId { get; set; }
+        public RequestCarDto() { }
         public RequestCarDto(Models.RequestCar requestCar)
         {
             this.RequestId = requestCar.RequestId;
