@@ -95,7 +95,7 @@ public class DriveMeCrazyAPIController : ControllerBase
 
             //Car was added!
             DriveMeCrazyServer.DTO.TableCarDto dtoCar = new DriveMeCrazyServer.DTO.TableCarDto(modelsCar);
-            dtoCar.CarImagePath = GetProfileImageVirtualPath(dtoCar.IdCar);
+            dtoCar.CarImagePath = GetCarImageVirtualPath(dtoCar.IdCar);
             return Ok(dtoCar);
         }
         catch (Exception ex)
