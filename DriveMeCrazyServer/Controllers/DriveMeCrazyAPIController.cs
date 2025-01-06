@@ -264,7 +264,7 @@ public class DriveMeCrazyAPIController : ControllerBase
         user.UserEmail = userDto.UserEmail;
         user.UserPassword = userDto.UserPassword;
         user.UserPhoneNum = userDto.UserPhoneNum;
-        user.CarId = userDto.CarId;
+        user.CarOwnerId = userDto.CarOwnerId;
        
 
         try
@@ -279,20 +279,6 @@ public class DriveMeCrazyAPIController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred", error = ex.Message });
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -345,10 +331,40 @@ public class DriveMeCrazyAPIController : ControllerBase
     }
 
 
+    [HttpPost("requestCar")]
+    public IActionResult RequestCar([FromBody] RequestCarDto requestCarDto)
+    {
+        try
+        {
+            // אם ה-DTO הוא null או לא תקין, מחזירים BadRequest
+            if (requestCarDto == null)
+            {
+                return BadRequest("Invalid request data.");
+            }
+
+            // יצירת אובייקט RequestCar מתוך ה-DTO
+            DriveMeCrazyServer.Models.RequestCar requestCar = requestCarDto.GetModel();
+
+            
+            requestCar.StatusId = 2; 
+            // שמירת הבקשה בבסיס הנתונים
+            context.RequestCars.Add(requestCar);
+            context.SaveChanges();
+
+            // יצירת DTO חדש לבקשה שהוזנה
+            RequestCarDto createdRequestCarDto = new RequestCarDto(requestCar);
+
+           
+            return Ok(createdRequestCarDto);
+        }
+        catch (Exception ex)
+        {
+            // אם הייתה שגיאה כלשהי, מחזירים BadRequest עם הודעת השגיאה
+            return BadRequest($"An error occurred: {ex.Message}");
+        }
+    }
 
 
-
-   
 
 }
 

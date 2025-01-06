@@ -22,11 +22,12 @@ CREATE TABLE TableUsers
 (
     Id INT PRIMARY KEY IDENTITY,
     UserName NVARCHAR(50) NOT NULL,
-    CarId NVARCHAR(50) NOT NULL,
+    CarOwnerId int NULL,
     UserLastName NVARCHAR(50) NOT NULL,
     UserEmail NVARCHAR(50) UNIQUE NOT NULL,
     UserPassword NVARCHAR(50) NOT NULL,
     UserPhoneNum NVARCHAR(50) NOT NULL
+    FOREIGN KEY (CarOwnerId) REFERENCES TableUsers(Id) 
 );
 
 CREATE TABLE StatusCar
@@ -41,7 +42,8 @@ CREATE TABLE TableCars
     IdCar NVARCHAR(50) NOT NULL PRIMARY KEY,
     OwnerId INT NOT NULL,  -- Ensure this is INT to match TableUsers.Id
     NickName NVARCHAR(50) NOT NULL,
-    FOREIGN KEY (OwnerId) REFERENCES TableUsers(Id)  -- Ensure consistency
+  
+  -- Ensure consistency
 );
 
 CREATE TABLE DriversCar
@@ -96,7 +98,7 @@ CREATE TABLE RequestCar
 (
     UserId INT NOT NULL,
     IdCar NVARCHAR(50) NOT NULL,
-    WhenIneedthecar NVARCHAR(50) NOT NULL,
+    WhenIneedthecar DateTime,
     Reason NVARCHAR(50) NOT NULL,
     RequestId INT PRIMARY KEY IDENTITY, 
     StatusId INT NOT NULL,
@@ -117,14 +119,16 @@ Go
 
 
 SELECT * FROM TableUsers
-insert into TableUsers values('Hadas', '12345','Galon','Hadas@gmail.com','1111','0546287507')
+--insert into TableUsers values('Hadas', '12345','Galon','Hadas@gmail.com','1111','0546287507')
 
 insert into StatusCar values('approve')
 insert into StatusCar values('pennding')
 insert into StatusCar values('rejected')
-SELECT * FROM CarType
+
 select * from TableCars
 select *from StatusCar
+
+select * from DriversCar
 
 
 

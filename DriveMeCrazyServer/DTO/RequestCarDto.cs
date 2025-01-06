@@ -9,9 +9,9 @@
 
              public string IdCar { get; set; } = null!;
 
-            public string WhenIneedthecar { get; set; } =null;
+        public DateTime? WhenIneedthecar { get; set; }
 
-            public string Reason { get; set; } = null;
+        public string Reason { get; set; } = null;
 
             public int StatusId { get; set; }
         public RequestCarDto() { }

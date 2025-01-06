@@ -14,8 +14,8 @@ public partial class RequestCar
     [StringLength(50)]
     public string IdCar { get; set; } = null!;
 
-    [StringLength(50)]
-    public string WhenIneedthecar { get; set; } = null!;
+    [Column(TypeName = "datetime")]
+    public DateTime? WhenIneedthecar { get; set; }
 
     [StringLength(50)]
     public string Reason { get; set; } = null!;

@@ -7,7 +7,8 @@
 
         public string UserName { get; set; } = null!;
 
-        public string CarId { get; set; } = null!;
+        public int? CarOwnerId { get; set; }
+
 
         public string UserLastName { get; set; } = null!;
 
@@ -21,7 +22,7 @@
         {
             this.Id = modleUser.Id;
             this.UserName = modleUser.UserName;
-            this.CarId = modleUser.CarId;
+            this.CarOwnerId = modleUser.CarOwnerId;
             this.UserLastName = modleUser.UserLastName;
             this.UserEmail = modleUser.UserEmail;
             this.UserPassword = modleUser.UserPassword;
@@ -33,7 +34,7 @@
             Models.TableUser u= new Models.TableUser(); 
             u.Id = this.Id;
             u.UserName = this.UserName;
-            u.CarId = this.CarId;
+            u.CarOwnerId = this.CarOwnerId;
             u.UserLastName = this.UserLastName;
             u.UserEmail = this.UserEmail;
             u.UserPassword = this.UserPassword;

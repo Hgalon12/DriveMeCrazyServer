@@ -22,8 +22,4 @@ public partial class TableCar
 
     [InverseProperty("IdCarNavigation")]
     public virtual ICollection<DriversCar> DriversCars { get; set; } = new List<DriversCar>();
-
-    [ForeignKey("OwnerId")]
-    [InverseProperty("TableCars")]
-    public virtual TableUser Owner { get; set; } = null!;
 }
