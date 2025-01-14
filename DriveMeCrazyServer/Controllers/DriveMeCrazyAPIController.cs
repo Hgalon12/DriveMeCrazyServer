@@ -66,6 +66,18 @@ public class DriveMeCrazyAPIController : ControllerBase
             //Create model user class
             DriveMeCrazyServer.Models.TableUser modelsUser = userDto.GetModel();
 
+            //CHeck if the user if registered as a kid and not a parent
+            if (userDto.CarOwnerEmail != null)
+            {
+                //Check what is the ID of the Parent
+                TableUser? parent = context.GetUser(userDto.CarOwnerEmail);
+                if (parent == null)
+                {
+                    return BadRequest("Parent email not found!");
+                }
+                modelsUser.CarOwnerId = parent.Id;
+            }
+
             context.TableUsers.Add(modelsUser);
             context.SaveChanges();
 

@@ -26,7 +26,7 @@ CREATE TABLE TableUsers
     UserLastName NVARCHAR(50) NOT NULL,
     UserEmail NVARCHAR(50) UNIQUE NOT NULL,
     UserPassword NVARCHAR(50) NOT NULL,
-    UserPhoneNum NVARCHAR(50) NOT NULL
+    UserPhoneNum NVARCHAR(50) NOT NULL,
     FOREIGN KEY (CarOwnerId) REFERENCES TableUsers(Id) 
 );
 
