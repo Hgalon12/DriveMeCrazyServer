@@ -119,15 +119,16 @@ Go
 
 
 SELECT * FROM TableUsers
---insert into TableUsers values('Hadas', '12345','Galon','Hadas@gmail.com','1111','0546287507')
-
+insert into TableUsers values('Hadas',1,'Galon','Hadas@gmail.com','1111','0546287507')
+insert into TableCars values('1234',1,'suzi')
+insert into DriversCar values(1,'1234',1)
 insert into StatusCar values('approve')
 insert into StatusCar values('pennding')
 insert into StatusCar values('rejected')
 
 select * from TableCars
 select *from StatusCar
-
+select* from RequestCar
 select * from DriversCar
 
 

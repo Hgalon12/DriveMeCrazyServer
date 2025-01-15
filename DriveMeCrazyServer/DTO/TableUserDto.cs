@@ -19,6 +19,7 @@
 
         public string UserPhoneNum { get; set; } = null!;
         public string ProfileImagePath { get; set; } = "";
+        public bool IsManager { get; set; }
         public TableUserDto(Models.TableUser modleUser)
         {
             this.Id = modleUser.Id;
