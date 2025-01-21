@@ -375,6 +375,41 @@ public class DriveMeCrazyAPIController : ControllerBase
             return BadRequest($"An error occurred: {ex.Message}");
         }
     }
+    [HttpGet("GetAllCars")]
+    public IActionResult GetAllCars()
+    {
+
+        try
+        {
+            //Check if who is logged in
+            string? userEmail = HttpContext.Session.GetString("loggedInUser");
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return Unauthorized("User is not logged in");
+            }
+
+            //Get model user class from DB with matching email. 
+            DriveMeCrazyServer.Models.TableUser? user = context.GetUser(userEmail);
+            if (user == null)
+            {
+                return Unauthorized("User is not logged in");
+            }
+            List<DriveMeCrazyServer.Models.TableCar> listCars = context.GetAllCar(user.Id);
+            List<TableCarDto> output = new List<TableCarDto>();
+            foreach (TableCar t in listCars)
+            {
+                output.Add(new TableCarDto(t));
+            }
+
+            return Ok(output);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+    }
+
 
 
 
