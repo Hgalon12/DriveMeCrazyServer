@@ -451,7 +451,7 @@ public class DriveMeCrazyAPIController : ControllerBase
     {
         try
         {
-            List<TableCar> listCar = context.GetAllCars();
+            List<TableCar>? listCar = context.GetAllCars();
             return Ok(listCar);
         }
         catch (Exception ex)
@@ -465,6 +465,47 @@ public class DriveMeCrazyAPIController : ControllerBase
 
 
 
+    [HttpGet("GetAllRequestPannding")]
+    public IActionResult GetAllRequest()
+    {
+        try
+        {
+            List<RequestCar>? req= context.GetAllRequestStatus2();
+            return Ok(req);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+    }
+
+    [HttpGet("ChangeStatusRequest")]
+    public IActionResult ChangeStatusRequest(int id)
+    {
+        try
+        {
+            RequestCar? request = context.GetRequestByStatus(id);
+            if (request == null)
+            {
+                return Unauthorized(); // אפשר להחזיר false אם לא מצאנו בקשה עם סטטוס 2
+            }
+
+            // שינוי הסטטוס ל-1
+            request.StatusId = 1;
+
+            // שמירת השינויים במסד הנתונים
+            context.SaveChangesAsync();
+
+            return Ok(); // החזרת true אם הצלחנו לעדכן }
+
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
 
 
 
@@ -478,7 +519,5 @@ public class DriveMeCrazyAPIController : ControllerBase
 
 
 
-
-
-}
+    }
 

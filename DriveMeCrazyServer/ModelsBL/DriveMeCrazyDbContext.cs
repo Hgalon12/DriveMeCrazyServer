@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Azure.Core;
 using DriveMeCrazyServer.DTO;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,22 @@ public partial class DriveMeCrazyDbContext : DbContext
     public List<TableCar>? GetAllCars()
     {
         return this.TableCars.ToList();
+    }
+    public List<RequestCar>? GetAllRequest()
+    {
+        return this.RequestCars.ToList();
+    }
+    public List<RequestCar>? GetAllRequestStatus2()
+    {
+        return this.RequestCars
+            .Where(r => r.StatusId == 2)
+            .ToList();
+    }
+    public RequestCar? GetRequestByStatus( int requestId)
+    {
+        return this.RequestCars
+             .FirstOrDefault(r => r.RequestId == requestId && r.StatusId == 2);
+
     }
 }
 
