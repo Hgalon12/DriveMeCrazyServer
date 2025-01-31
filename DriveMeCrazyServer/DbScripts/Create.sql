@@ -128,8 +128,10 @@ insert into TableCars values('1111',1,'yondi')
 insert into TableCars values('2222',1,'car')
 insert into StatusCar values('approve')
 insert into StatusCar values('pennding')
-insert into StatusCar values('rejected')
+insert into StatusCar values('rejected') 
+insert into ChoresType values ('Car wash','100','1234')
 select * from TableCars
+select * from ChoresType
 select *from StatusCar
 select* from RequestCar
 select * from DriversCar

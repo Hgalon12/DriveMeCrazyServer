@@ -16,5 +16,9 @@ public partial class DriveMeCrazyDbContext : DbContext
     {
         return this.TableCars.Where(c => c.DriversCars.Where(d => d.UserId == id && d.Status == 1).Any()).ToList();
     }
+    public List<TableCar>? GetAllCars()
+    {
+        return this.TableCars.ToList();
+    }
 }
 

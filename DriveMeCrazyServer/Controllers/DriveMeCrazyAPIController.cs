@@ -375,6 +375,7 @@ public class DriveMeCrazyAPIController : ControllerBase
             return BadRequest($"An error occurred: {ex.Message}");
         }
     }
+
     [HttpGet("GetAllCars")]
     public IActionResult GetAllCars()
     {
@@ -409,6 +410,72 @@ public class DriveMeCrazyAPIController : ControllerBase
         }
 
     }
+
+
+
+
+    #region Add Chore
+    [HttpPost("AddChore")]
+    public IActionResult AddRestaurant([FromBody]ChoreTypeDto choreTypeDto)
+    {
+        try
+        {
+            //validate restaurant manager
+            ChoresType chore = new ChoresType()
+            {
+               NameChore=choreTypeDto.NameChore,
+               Score=choreTypeDto.Score,
+               IdCar=choreTypeDto.IdCar,
+            };
+            //add restaurant
+            context.ChoresTypes.Add(chore);
+            context.SaveChanges();
+            ChoreTypeDto c =new ChoreTypeDto(chore);    
+           
+            return Ok(chore);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest();
+        }
+
+    }
+    #endregion
+
+
+
+
+
+    [HttpGet("GetAllCarRegistred")]
+    public IActionResult GetAllRest()
+    {
+        try
+        {
+            List<TableCar> listCar = context.GetAllCars();
+            return Ok(listCar);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
