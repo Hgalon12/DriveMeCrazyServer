@@ -480,8 +480,8 @@ public class DriveMeCrazyAPIController : ControllerBase
 
     }
 
-    [HttpGet("ChangeStatusRequest")]
-    public IActionResult ChangeStatusRequest(int id)
+    [HttpPost("ChangeStatusRequestToAprrove")]
+    public IActionResult ChangeStatusRequestToAprrove([FromBody] int id)
     {
         try
         {
@@ -505,19 +505,44 @@ public class DriveMeCrazyAPIController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
+    [HttpPost("ChangeStatusRequestToRegject")]
+    public IActionResult ChangeStatusRequestToRegject([FromBody] int id)
+    {
+        try
+        {
+            RequestCar? request = context.GetRequestByStatus(id);
+            if (request == null)
+            {
+                return Unauthorized(); // אפשר להחזיר false אם לא מצאנו בקשה עם סטטוס 2
+            }
 
+            // שינוי הסטטוס ל-1
+            request.StatusId = 3;
 
+            // שמירת השינויים במסד הנתונים
+            context.SaveChangesAsync();
 
+            return Ok(); // החזרת true אם הצלחנו לעדכן }
 
-
-
-
-
-
-
-
-
-
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
 
