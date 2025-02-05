@@ -2,6 +2,7 @@
 using DriveMeCrazyServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Net;
 
 
@@ -470,8 +471,29 @@ public class DriveMeCrazyAPIController : ControllerBase
     {
         try
         {
-            List<RequestCar>? req= context.GetAllRequestStatus2();
-            return Ok(req);
+            //Check if who is logged in
+            string? userEmail = HttpContext.Session.GetString("loggedInUser");
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return Unauthorized("User is not logged in");
+            }
+
+            //Get model user class from DB with matching email. 
+            DriveMeCrazyServer.Models.TableUser? user = context.GetUser(userEmail);
+            if (user == null)
+            {
+                return Unauthorized("User is not logged in");
+            }
+
+            int ownerId = user.Id;
+
+            List<RequestCar>? req= context.GetAllRequestStatus2(ownerId);
+            List<RequestCarDto> result= new List<RequestCarDto>();
+            foreach(RequestCar r in req)
+            {
+                result.Add(new RequestCarDto(r));
+            }
+            return Ok(result);
         }
         catch (Exception ex)
         {
@@ -481,24 +503,23 @@ public class DriveMeCrazyAPIController : ControllerBase
     }
 
     [HttpPost("ChangeStatusRequestToAprrove")]
-    public IActionResult ChangeStatusRequestToAprrove([FromBody] int id)
+    public IActionResult ChangeRestStatusToApprove(RequestCarDto requestDTO)
     {
         try
         {
-            RequestCar? request = context.GetRequestByStatus(id);
-            if (request == null)
-            {
-                return Unauthorized(); // אפשר להחזיר false אם לא מצאנו בקשה עם סטטוס 2
-            }
+            //validate its an admin
+            string? username = HttpContext.Session.GetString("loggedInUser");
+            if (username == null)
+                return Unauthorized();
+            TableUser? u = context.GetUser(username);
+            if (u == null )
+                return Unauthorized();
 
-            // שינוי הסטטוס ל-1
-            request.StatusId = 1;
-
-            // שמירת השינויים במסד הנתונים
-            context.SaveChangesAsync();
-
-            return Ok(); // החזרת true אם הצלחנו לעדכן }
-
+            bool success = context.SetStatus(requestDTO.StatusId, 1);
+            if (success)
+                return Ok(success);
+            else
+                return BadRequest("Either requestID not found or DB connection problem!");
         }
         catch (Exception ex)
         {
@@ -506,24 +527,23 @@ public class DriveMeCrazyAPIController : ControllerBase
         }
     }
     [HttpPost("ChangeStatusRequestToRegject")]
-    public IActionResult ChangeStatusRequestToRegject([FromBody] int id)
+    public IActionResult ChangeRestStatusToDecline(RequestCarDto requestDTO)
     {
         try
         {
-            RequestCar? request = context.GetRequestByStatus(id);
-            if (request == null)
-            {
-                return Unauthorized(); // אפשר להחזיר false אם לא מצאנו בקשה עם סטטוס 2
-            }
+            //validate its an admin
+            string? username = HttpContext.Session.GetString("loggedInUser");
+            if (username == null)
+                return Unauthorized();
+            TableUser? u = context.GetUser(username);
+            if (u == null)
+                return Unauthorized();
 
-            // שינוי הסטטוס ל-1
-            request.StatusId = 3;
-
-            // שמירת השינויים במסד הנתונים
-            context.SaveChangesAsync();
-
-            return Ok(); // החזרת true אם הצלחנו לעדכן }
-
+            bool success = context.SetStatus(requestDTO.StatusId, 3);
+            if (success)
+                return Ok(success);
+            else
+                return BadRequest("Either requestID not found or DB connection problem!");
         }
         catch (Exception ex)
         {

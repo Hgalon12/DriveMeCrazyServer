@@ -1,4 +1,6 @@
-﻿namespace DriveMeCrazyServer.DTO
+﻿using DriveMeCrazyServer.Models;
+
+namespace DriveMeCrazyServer.DTO
 {
     public class RequestCarDto
     {
@@ -7,7 +9,9 @@
 
             public int UserId { get; set; }
 
-             public string IdCar { get; set; } = null!;
+        public TableUserDto? Requester { get; set; }
+
+        public string IdCar { get; set; } = null!;
 
         public DateTime? WhenIneedthecar { get; set; }
 
@@ -23,6 +27,7 @@
             this.WhenIneedthecar=requestCar.WhenIneedthecar;
             this.Reason = requestCar.Reason;
             this.StatusId = requestCar.StatusId;
+            this.Requester = new TableUserDto(requestCar.DriversCar.User);
 
         }
         public  Models.RequestCar GetModel()

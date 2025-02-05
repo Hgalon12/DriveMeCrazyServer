@@ -25,16 +25,48 @@ public partial class DriveMeCrazyDbContext : DbContext
     {
         return this.RequestCars.ToList();
     }
-    public List<RequestCar>? GetAllRequestStatus2()
+    public List<RequestCar>? GetAllRequestStatus2(int ownerId)
     {
-        return this.RequestCars
+        List<RequestCar> list =  this.RequestCars.Include(r => r.DriversCar).ThenInclude(d => d.User)
             .Where(r => r.StatusId == 2)
             .ToList();
+
+        List<TableCar> cars = TableCars.Where(t => t.OwnerId == ownerId).ToList();
+
+        List<RequestCar> output = new List<RequestCar>();
+        foreach (RequestCar r in list)
+        {
+            if (cars.Exists(c => c.IdCar == r.IdCar))
+            {
+                output.Add(r);
+            }
+        }
+        return output;
     }
     public RequestCar? GetRequestByStatus( int requestId)
     {
         return this.RequestCars
              .FirstOrDefault(r => r.RequestId == requestId && r.StatusId == 2);
+
+    }
+    public bool SetStatus(int requestId, int statusId)
+    {
+        try
+        {
+            RequestCar? r = this.RequestCars.Where(r => r.RequestId == requestId).FirstOrDefault();
+            if (r != null)
+            {
+                r.StatusId = statusId;
+                this.Update(r);
+                this.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
 
     }
 }
