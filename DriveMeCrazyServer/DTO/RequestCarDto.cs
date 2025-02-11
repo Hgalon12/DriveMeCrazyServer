@@ -27,7 +27,10 @@ namespace DriveMeCrazyServer.DTO
             this.WhenIneedthecar=requestCar.WhenIneedthecar;
             this.Reason = requestCar.Reason;
             this.StatusId = requestCar.StatusId;
-            this.Requester = new TableUserDto(requestCar.DriversCar.User);
+            if (requestCar.DriversCar != null && requestCar.DriversCar.User != null)
+                this.Requester = new TableUserDto(requestCar.DriversCar.User);
+            else
+                this.Requester = null;
 
         }
         public  Models.RequestCar GetModel()

@@ -130,7 +130,7 @@ insert into ChoresType values ('Car wash','100','1234')
 insert into DriversCar values(1,'1234',1)
 insert into DriversCar values(1,'1111',1)
 insert into DriversCar values(1,'2222',1)
-insert into DriversCar values(3,'2121',1)
+insert into DriversCar values(3,'1212',1)
 select * from TableCars
 select * from ChoresType
 select *from StatusCar
