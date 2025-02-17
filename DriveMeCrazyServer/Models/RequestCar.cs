@@ -17,6 +17,9 @@ public partial class RequestCar
     [Column(TypeName = "datetime")]
     public DateTime? WhenIneedthecar { get; set; }
 
+    [Column(TypeName = "datetime")]
+    public DateTime? UntilWhenIneedthecar { get; set; }
+
     [StringLength(50)]
     public string Reason { get; set; } = null!;
 

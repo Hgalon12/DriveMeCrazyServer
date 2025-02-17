@@ -99,6 +99,7 @@ CREATE TABLE RequestCar
     UserId INT NOT NULL,
     IdCar NVARCHAR(50) NOT NULL,
     WhenIneedthecar DateTime,
+    UntilWhenIneedthecar DateTime,
     Reason NVARCHAR(50) NOT NULL,
     RequestId INT PRIMARY KEY IDENTITY, 
     StatusId INT NOT NULL,

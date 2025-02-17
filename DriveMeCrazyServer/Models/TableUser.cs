@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DriveMeCrazyServer.Models;
 
-[Index("UserEmail", Name = "UQ__TableUse__08638DF810FC2291", IsUnique = true)]
+[Index("UserEmail", Name = "UQ__TableUse__08638DF859FC3993", IsUnique = true)]
 public partial class TableUser
 {
     [Key]

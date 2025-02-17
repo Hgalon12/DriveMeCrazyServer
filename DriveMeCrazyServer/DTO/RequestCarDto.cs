@@ -14,7 +14,7 @@ namespace DriveMeCrazyServer.DTO
         public string IdCar { get; set; } = null!;
 
         public DateTime? WhenIneedthecar { get; set; }
-
+        public DateTime? UntilWhenIneedthecar { get; set; }
         public string Reason { get; set; } = null;
 
             public int StatusId { get; set; }
@@ -25,6 +25,7 @@ namespace DriveMeCrazyServer.DTO
             this.UserId = requestCar.UserId;
              this.IdCar = requestCar.IdCar;
             this.WhenIneedthecar=requestCar.WhenIneedthecar;
+            this.UntilWhenIneedthecar = requestCar.UntilWhenIneedthecar;
             this.Reason = requestCar.Reason;
             this.StatusId = requestCar.StatusId;
             if (requestCar.DriversCar != null && requestCar.DriversCar.User != null)
@@ -41,6 +42,7 @@ namespace DriveMeCrazyServer.DTO
           request.UserId = this.UserId;
           request.IdCar = this.IdCar;
           request.WhenIneedthecar = this.WhenIneedthecar;
+           request.UntilWhenIneedthecar=this.UntilWhenIneedthecar;
           request.Reason = this.Reason;
           request.StatusId = this.StatusId;
 
