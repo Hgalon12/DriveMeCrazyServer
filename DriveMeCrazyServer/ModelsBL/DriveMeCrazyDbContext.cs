@@ -13,6 +13,21 @@ public partial class DriveMeCrazyDbContext : DbContext
         return this.TableUsers.Where(u => u.UserEmail == email)
                             .FirstOrDefault();
     }
+    public TableUser? GetUserById(int id)
+    {
+        return this.TableUsers.Where(u => u.Id == id)
+                            .FirstOrDefault();
+    }
+    public TableCar? GeCarById(string id)
+    {
+        return this.TableCars.Where(c => c.IdCar==id).FirstOrDefault();
+    }
+    
+    public List<TableUser> GetUserByOwner(int id)
+    {
+        return this.TableUsers.Where(u => u.CarOwnerId== id )
+                            .ToList();
+    }
     public List<TableCar> GetAllCar(int id)
     {
         return this.TableCars.Where(c => c.DriversCars.Where(d => d.UserId == id && d.Status == 1).Any()).ToList();
@@ -69,5 +84,6 @@ public partial class DriveMeCrazyDbContext : DbContext
         }
 
     }
+  
 }
 

@@ -7,6 +7,7 @@
 
             public string IdCar { get; set; } = null!;
         public int Status { get; set; }
+       public DriversCarDto() { }
         public DriversCarDto(Models.DriversCar modelDriver)
         {
             this.UserId = modelDriver.UserId;

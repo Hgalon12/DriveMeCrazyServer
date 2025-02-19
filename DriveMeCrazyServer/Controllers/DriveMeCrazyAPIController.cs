@@ -1,6 +1,7 @@
 ﻿using DriveMeCrazyServer.DTO;
 using DriveMeCrazyServer.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Net;
@@ -554,7 +555,91 @@ public class DriveMeCrazyAPIController : ControllerBase
 
 
 
+    [HttpGet("GetAllUserByOwner")]
+    public IActionResult GetAllUser()
+    {
 
+        try
+        {
+            //Check if who is logged in
+            string? userEmail = HttpContext.Session.GetString("loggedInUser");
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return Unauthorized("User is not logged in");
+            }
+
+            //Get model user class from DB with matching email. 
+            DriveMeCrazyServer.Models.TableUser? user = context.GetUser(userEmail);
+            if (user == null)
+            {
+                return Unauthorized("User is not logged in");
+            }
+            
+            List<DriveMeCrazyServer.Models.TableUser> listUsers = context.GetUserByOwner(user.Id);
+
+            List<TableUserDto> result = new List<TableUserDto>();
+            foreach (TableUser r in listUsers)
+            {
+                result.Add(new TableUserDto(r));
+            }
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+    }
+
+
+    [HttpGet("adddriver")]
+    public IActionResult AddDriverCar([FromQuery] string carId, [FromQuery] int userId)
+    {
+        try
+        {
+            string? userEmail = HttpContext.Session.GetString("loggedInUser");
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return Unauthorized("User is not logged in");
+            }
+            if (carId == null || userId == null)
+            {
+                return BadRequest("TableCarDto or UserDto is null");
+            }
+
+            // יצירת מודל של TableCar מה-DTO
+           
+
+            // חיפוש רכב לפי ה-IdCar
+         
+
+            // יצירת אובייקט חדש מסוג DriversCar
+            var driverCar = new DriversCar
+            {
+                UserId = userId,
+                IdCar =carId,
+                Status = 1 // סטטוס ל-1
+            };
+            TableCar? car = context.GeCarById(carId);
+            TableUser? user= context.GetUserById(userId);
+            // הוספת קשרים לשורות המתאימות
+            driverCar.User = user;
+            driverCar.IdCarNavigation = car;
+
+            // הוספת הקשר החדש לטבלת DriversCar
+            context.DriversCars.Add(driverCar);
+
+            // שמירה לשינויים במסד הנתונים
+            context.SaveChanges();
+
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            // במקרה של שגיאה, נשלח הודעת שגיאה עם פרטי השגיאה
+            return BadRequest();
+        }
+    }
 
 
 
