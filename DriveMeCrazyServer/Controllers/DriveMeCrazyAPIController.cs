@@ -574,7 +574,7 @@ public class DriveMeCrazyAPIController : ControllerBase
             {
                 return Unauthorized("User is not logged in");
             }
-            
+
             List<DriveMeCrazyServer.Models.TableUser> listUsers = context.GetUserByOwner(user.Id);
 
             List<TableUserDto> result = new List<TableUserDto>();
