@@ -31,7 +31,7 @@ public partial class DriveMeCrazyDbContext : DbContext
   
     public List<TableCar> GetAllCar(int id)
     {
-        return this.TableCars.Where(c => c.DriversCars.Where(d => d.UserId == id && d.Status == 1).Any()).ToList();
+        return this.TableCars.Where(c => c.OwnerId == id).ToList();
     }
     public List<TableCar>? GetAllCars()
     {

@@ -397,7 +397,12 @@ public class DriveMeCrazyAPIController : ControllerBase
             {
                 return Unauthorized("User is not logged in");
             }
-            List<DriveMeCrazyServer.Models.TableCar> listCars = context.GetAllCar(user.Id);
+            int ownerId = user.Id;
+            if (user.CarOwnerId != null)
+            {
+                ownerId = user.CarOwnerId.Value;
+            }
+            List<DriveMeCrazyServer.Models.TableCar> listCars = context.GetAllCar(ownerId);
             List<TableCarDto> output = new List<TableCarDto>();
             foreach (TableCar t in listCars)
             {
@@ -513,7 +518,7 @@ public class DriveMeCrazyAPIController : ControllerBase
             if (username == null)
                 return Unauthorized();
             TableUser? u = context.GetUser(username);
-            if (u == null )
+            if (u == null)
                 return Unauthorized();
 
             bool success = context.SetStatus(requestDTO.StatusId, 1);
