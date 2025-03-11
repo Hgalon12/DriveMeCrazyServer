@@ -625,11 +625,7 @@ public class DriveMeCrazyAPIController : ControllerBase
                 IdCar =carId,
                 Status = 1 // סטטוס ל-1
             };
-            TableCar? car = context.GeCarById(carId);
-            TableUser? user= context.GetUserById(userId);
-            // הוספת קשרים לשורות המתאימות
-            driverCar.User = user;
-            driverCar.IdCarNavigation = car;
+            
 
             // הוספת הקשר החדש לטבלת DriversCar
             context.DriversCars.Add(driverCar);
@@ -637,7 +633,7 @@ public class DriveMeCrazyAPIController : ControllerBase
             // שמירה לשינויים במסד הנתונים
             context.SaveChanges();
 
-            return Ok();
+            return Ok(driverCar);
         }
         catch (Exception ex)
         {

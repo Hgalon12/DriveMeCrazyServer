@@ -143,6 +143,8 @@ select* from RequestCar
 select * from DriversCar
 select* from TableCars
 
+delete DriversCar where UserId=4 and IdCar=5555
+
 
 
 
