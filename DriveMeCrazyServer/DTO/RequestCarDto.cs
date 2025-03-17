@@ -16,6 +16,7 @@ namespace DriveMeCrazyServer.DTO
         public DateTime? WhenIneedthecar { get; set; }
         public DateTime? UntilWhenIneedthecar { get; set; }
         public string Reason { get; set; } = null;
+        public TableCarDto Car { get; set; } = null;
 
             public int StatusId { get; set; }
         public RequestCarDto() { }
@@ -32,6 +33,10 @@ namespace DriveMeCrazyServer.DTO
                 this.Requester = new TableUserDto(requestCar.DriversCar.User);
             else
                 this.Requester = null;
+            if (requestCar.DriversCar != null && requestCar.DriversCar.IdCarNavigation != null)
+                this.Car = new TableCarDto(requestCar.DriversCar.IdCarNavigation);
+            else
+                this.Car = null;
 
         }
         public  Models.RequestCar GetModel()

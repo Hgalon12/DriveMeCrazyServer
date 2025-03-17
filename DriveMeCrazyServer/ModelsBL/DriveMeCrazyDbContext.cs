@@ -43,7 +43,9 @@ public partial class DriveMeCrazyDbContext : DbContext
     }
     public List<RequestCar>? GetAllRequestStatus2(int ownerId)
     {
-        List<RequestCar> list =  this.RequestCars.Include(r => r.DriversCar).ThenInclude(d => d.User)
+        List<RequestCar> list =  this.RequestCars
+            .Include(r => r.DriversCar).ThenInclude(d => d.User)
+            .Include(r => r.DriversCar).ThenInclude(d => d.IdCar)
             .Where(r => r.StatusId == 2)
             .ToList();
 
@@ -59,6 +61,27 @@ public partial class DriveMeCrazyDbContext : DbContext
         }
         return output;
     }
+    public List<RequestCar>? GetAllRequestStatusAprovePandding(int? ownerId)
+    {
+        List<RequestCar> list = this.RequestCars
+            .Include(r => r.DriversCar).ThenInclude(d => d.User)
+            .Include(r => r.DriversCar).ThenInclude(d => d.IdCar)
+            .Where(r => r.StatusId == 2|| r.StatusId ==1)
+            .ToList();
+
+        List<TableCar> cars = TableCars.Where(t => t.OwnerId == ownerId).ToList();
+
+        List<RequestCar> output = new List<RequestCar>();
+        foreach (RequestCar r in list)
+        {
+            if (cars.Exists(c => c.IdCar == r.IdCar))
+            {
+                output.Add(r);
+            }
+        }
+        return output;
+    }
+
     public RequestCar? GetRequestByStatus( int requestId)
     {
         return this.RequestCars

@@ -48,7 +48,7 @@ public class DriveMeCrazyAPIController : ControllerBase
             HttpContext.Session.SetString("loggedInUser", modelsUser.UserEmail);
 
             DriveMeCrazyServer.DTO.TableUserDto dtoUser = new DriveMeCrazyServer.DTO.TableUserDto(modelsUser);
-            //dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.Id);
+            dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.Id);
             return Ok(dtoUser);
         }
         catch (Exception ex)
@@ -313,7 +313,7 @@ public class DriveMeCrazyAPIController : ControllerBase
             }
             else
             {
-                virtualPath = $"/profileImages/default.png";
+                virtualPath = $"/profileImages/profilepic.png";
             }
         }
 
@@ -337,7 +337,7 @@ public class DriveMeCrazyAPIController : ControllerBase
             }
             else
             {
-                virtualPath = $"/carImages/default.png";
+                virtualPath = $"/carImages/car.png";
             }
         }
 
@@ -406,7 +406,11 @@ public class DriveMeCrazyAPIController : ControllerBase
             List<TableCarDto> output = new List<TableCarDto>();
             foreach (TableCar t in listCars)
             {
-                output.Add(new TableCarDto(t));
+                output.Add(new TableCarDto(t)
+                {
+                    CarImagePath=GetCarImageVirtualPath(t.IdCar)
+                }
+                    );
             }
 
             return Ok(output);
@@ -423,7 +427,7 @@ public class DriveMeCrazyAPIController : ControllerBase
 
     #region Add Chore
     [HttpPost("AddChore")]
-    public IActionResult AddRestaurant([FromBody]ChoreTypeDto choreTypeDto)
+    public IActionResult AddChore([FromBody]ChoreTypeDto choreTypeDto)
     {
         try
         {
@@ -507,6 +511,48 @@ public class DriveMeCrazyAPIController : ControllerBase
         }
 
     }
+    [HttpGet("GetAllRequestPanndingAndAprove")]
+    public IActionResult GetAllRequest12()
+    {
+        try
+        {
+            //Check if who is logged in
+            string? userEmail = HttpContext.Session.GetString("loggedInUser");
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return Unauthorized("User is not logged in");
+            }
+
+            //Get model user class from DB with matching email. 
+            DriveMeCrazyServer.Models.TableUser? user = context.GetUser(userEmail);
+            if (user == null)
+            {
+                return Unauthorized("User is not logged in");
+            }
+            int? ownerId;
+            if (user.CarOwnerId == null)
+            {
+                ownerId = user.Id;
+            }
+            
+                 ownerId= user.CarOwnerId;
+            
+         
+
+            List<RequestCar>? req = context.GetAllRequestStatusAprovePandding(ownerId);
+            List<RequestCarDto> result = new List<RequestCarDto>();
+            foreach (RequestCar r in req)
+            {
+                result.Add(new RequestCarDto(r));
+            }
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+    }
 
     [HttpPost("ChangeStatusRequestToAprrove")]
     public IActionResult ChangeRestStatusToApprove(RequestCarDto requestDTO)
@@ -521,7 +567,7 @@ public class DriveMeCrazyAPIController : ControllerBase
             if (u == null)
                 return Unauthorized();
 
-            bool success = context.SetStatus(requestDTO.StatusId, 1);
+            bool success = context.SetStatus(requestDTO.RequestId, 1);
             if (success)
                 return Ok(success);
             else
