@@ -45,7 +45,7 @@ public partial class DriveMeCrazyDbContext : DbContext
     {
         List<RequestCar> list =  this.RequestCars
             .Include(r => r.DriversCar).ThenInclude(d => d.User)
-            .Include(r => r.DriversCar).ThenInclude(d => d.IdCar)
+            .Include(r => r.DriversCar).ThenInclude(d => d.IdCarNavigation)
             .Where(r => r.StatusId == 2)
             .ToList();
 
@@ -65,7 +65,7 @@ public partial class DriveMeCrazyDbContext : DbContext
     {
         List<RequestCar> list = this.RequestCars
             .Include(r => r.DriversCar).ThenInclude(d => d.User)
-            .Include(r => r.DriversCar).ThenInclude(d => d.IdCar)
+            .Include(r => r.DriversCar).ThenInclude(d => d.IdCarNavigation)
             .Where(r => r.StatusId == 2|| r.StatusId ==1)
             .ToList();
 

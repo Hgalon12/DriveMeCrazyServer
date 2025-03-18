@@ -501,7 +501,7 @@ public class DriveMeCrazyAPIController : ControllerBase
             List<RequestCarDto> result= new List<RequestCarDto>();
             foreach(RequestCar r in req)
             {
-                result.Add(new RequestCarDto(r));
+                result.Add(new RequestCarDto(r, this.webHostEnvironment.WebRootPath));
             }
             return Ok(result);
         }
@@ -543,7 +543,7 @@ public class DriveMeCrazyAPIController : ControllerBase
             List<RequestCarDto> result = new List<RequestCarDto>();
             foreach (RequestCar r in req)
             {
-                result.Add(new RequestCarDto(r));
+                result.Add(new RequestCarDto(r, this.webHostEnvironment.WebRootPath));
             }
             return Ok(result);
         }

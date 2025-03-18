@@ -16,11 +16,11 @@ namespace DriveMeCrazyServer.DTO
         public DateTime? WhenIneedthecar { get; set; }
         public DateTime? UntilWhenIneedthecar { get; set; }
         public string Reason { get; set; } = null;
-        public TableCarDto Car { get; set; } = null;
+        public TableCarDto? Car { get; set; } = null;
 
             public int StatusId { get; set; }
         public RequestCarDto() { }
-        public RequestCarDto(Models.RequestCar requestCar)
+        public RequestCarDto(Models.RequestCar requestCar, string rootPath = "")
         {
             this.RequestId = requestCar.RequestId;
             this.UserId = requestCar.UserId;
@@ -34,7 +34,7 @@ namespace DriveMeCrazyServer.DTO
             else
                 this.Requester = null;
             if (requestCar.DriversCar != null && requestCar.DriversCar.IdCarNavigation != null)
-                this.Car = new TableCarDto(requestCar.DriversCar.IdCarNavigation);
+                this.Car = new TableCarDto(requestCar.DriversCar.IdCarNavigation, rootPath);
             else
                 this.Car = null;
 
