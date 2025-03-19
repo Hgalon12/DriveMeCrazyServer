@@ -534,8 +534,11 @@ public class DriveMeCrazyAPIController : ControllerBase
             {
                 ownerId = user.Id;
             }
-            
-                 ownerId= user.CarOwnerId;
+            else
+            {
+                ownerId = user.CarOwnerId;
+            }
+              
             
          
 
@@ -591,7 +594,7 @@ public class DriveMeCrazyAPIController : ControllerBase
             if (u == null)
                 return Unauthorized();
 
-            bool success = context.SetStatus(requestDTO.StatusId, 3);
+            bool success = context.SetStatus(requestDTO.RequestId, 3);
             if (success)
                 return Ok(success);
             else
