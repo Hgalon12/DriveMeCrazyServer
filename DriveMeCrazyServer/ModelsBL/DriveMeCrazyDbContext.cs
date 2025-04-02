@@ -29,9 +29,21 @@ public partial class DriveMeCrazyDbContext : DbContext
                             .ToList();
     }
   
-    public List<TableCar> GetAllCar(int id)
+    public List<TableCar> GetAllCarByOwner(int id)
     {
         return this.TableCars.Where(c => c.OwnerId == id).ToList();
+    }
+
+    public List<TableCar> GetAllCarByKid(int id)
+    {
+        List<DriversCar> driverCars = this.DriversCars.Include(dc => dc.IdCarNavigation).Where(dc => dc.UserId == id).ToList();
+        List<TableCar> cars = new List<TableCar>();
+        foreach (DriversCar driverCar in driverCars)
+        {
+            cars.Add(driverCar.IdCarNavigation);
+        }
+
+        return cars;
     }
     public List<TableCar>? GetAllCars()
     {

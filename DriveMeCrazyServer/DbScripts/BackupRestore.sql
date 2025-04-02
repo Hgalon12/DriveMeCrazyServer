@@ -35,3 +35,20 @@ select *from StatusCar
 select* from RequestCar
 select * from DriversCar
 select* from TableCars
+DELETE FROM TableCars
+WHERE (IdCar = '123432' AND OwnerId = 3 AND NickName = 'eeee') OR
+      (IdCar = '2222' AND OwnerId = 1 AND NickName = 'car') OR
+      (IdCar = '222244' AND OwnerId = 3 AND NickName = 'dsddd') OR
+      
+      (IdCar = '32327' AND OwnerId = 3 AND NickName = 'ff') OR
+      (IdCar = '3333' AND OwnerId = 1 AND NickName = 'car1') OR
+      (IdCar = '4343w' AND OwnerId = 3 AND NickName = 'amit') OR
+      (IdCar = '474747' AND OwnerId = 3 AND NickName = 'hadasgalon') OR
+      (IdCar = '544' AND OwnerId = 3 AND NickName = 'jh') OR
+      (IdCar = '6666' AND OwnerId = 3 AND NickName = 'fdf') OR
+      (IdCar = '7653234' AND OwnerId = 3 AND NickName = 'hghg') OR
+      
+      (IdCar = '8777' AND OwnerId = 3 AND NickName = 'rotem') OR
+      (IdCar = '99887' AND OwnerId = 3 AND NickName = 'uuuyy') OR
+      (IdCar = 'ttt' AND OwnerId = 3 AND NickName = 'ooo');
+

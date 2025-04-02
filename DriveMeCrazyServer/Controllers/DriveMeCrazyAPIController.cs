@@ -100,7 +100,7 @@ public class DriveMeCrazyAPIController : ControllerBase
     {
         try
         {
-            HttpContext.Session.Clear(); //Logout any previous login attempt
+            //Logout any previous login attempt
 
             //Create model car class
             DriveMeCrazyServer.Models.TableCar modelsCar = carDto.GetModel();
@@ -399,11 +399,16 @@ public class DriveMeCrazyAPIController : ControllerBase
                 return Unauthorized("User is not logged in");
             }
             int ownerId = user.Id;
-            if (user.CarOwnerId != null)
+            List<DriveMeCrazyServer.Models.TableCar> listCars;
+            if (user.CarOwnerId != null) //the user is a kid and not owner of a car
             {
-                ownerId = user.CarOwnerId.Value;
+                listCars = context.GetAllCarByKid(user.Id);
             }
-            List<DriveMeCrazyServer.Models.TableCar> listCars = context.GetAllCar(ownerId);
+            else
+            {
+                listCars = context.GetAllCarByOwner(ownerId); //the user is owner of cars
+            }
+                
             List<TableCarDto> output = new List<TableCarDto>();
             foreach (TableCar t in listCars)
             {
