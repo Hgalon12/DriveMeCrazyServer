@@ -428,8 +428,65 @@ public class DriveMeCrazyAPIController : ControllerBase
 
     }
 
+    [HttpPost("getCarUsage")]
+    public IActionResult GetCarUsage([FromQuery] int parentId, [FromQuery] int days)
+    {
+        //Check if who is logged in
+        string? userEmail = HttpContext.Session.GetString("loggedInUser");
+        if (string.IsNullOrEmpty(userEmail))
+        {
+            return Unauthorized("User is not logged in");
+        }
 
+        //Get model user class from DB with matching email. 
+        DriveMeCrazyServer.Models.TableUser? user = context.GetUser(userEmail);
+        if (user == null)
+        {
+            return Unauthorized("User is not logged in");
+        }
 
+        if (user.Id != parentId && user.CarOwnerId != parentId)
+        {
+            return Unauthorized("Trying to read some elses car details!");
+        }
+
+        List<RequestCar> list = context.GetCarUsage(parentId, days);
+        list = list.OrderBy(r => r.UserId).ToList();
+
+        List<CarUseChartDto> output = new List<CarUseChartDto>();
+        
+        if (list.Count > 0)
+        {
+            string current = "";
+            CarUseChartDto currentDto = new CarUseChartDto();
+            foreach (RequestCar t in list)
+            {
+                if (t.DriversCar.User.UserName != current)
+                {
+                    current = t.DriversCar.User.UserName;
+
+                    TimeSpan span = t.UntilWhenIneedthecar.Value - t.WhenIneedthecar.Value;
+
+                    currentDto = new CarUseChartDto()
+                    {
+                        Name = current,
+                        Hours = span.Hours
+                    };
+                    output.Add(currentDto);
+                }
+                else
+                {
+                    TimeSpan span = t.UntilWhenIneedthecar.Value - t.WhenIneedthecar.Value;
+                    currentDto.Hours += span.Hours;
+                }
+
+               
+            }
+
+        }
+        return Ok(output);
+        
+    }
 
     #region Add Chore
     [HttpPost("AddChore")]

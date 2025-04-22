@@ -120,6 +120,26 @@ public partial class DriveMeCrazyDbContext : DbContext
         }
 
     }
+
+    public List<RequestCar> GetCarUsage(int parentId, int days) 
+    {
+        List<DriversCar> list = this.DriversCars.Include(d=>d.IdCarNavigation).Include(d=>d.RequestCars).Include(d=>d.User).Where(d => d.IdCarNavigation.OwnerId == parentId).ToList();
+        List<RequestCar> result = new List<RequestCar>();
+        foreach(DriversCar driver in list)
+        {
+            foreach (RequestCar requestCar in driver.RequestCars) 
+            {
+                if (requestCar.StatusId == 1) 
+                {
+                    if (requestCar.WhenIneedthecar != null && requestCar.WhenIneedthecar.Value.AddDays(days) >= DateTime.Now)
+                    {
+                        result.Add(requestCar);
+                    }
+                }
+            }
+        }
+        return result;
+    }
   
 }
 
