@@ -428,7 +428,7 @@ public class DriveMeCrazyAPIController : ControllerBase
 
     }
 
-    [HttpPost("getCarUsage")]
+    [HttpGet("getCarUsage")]
     public IActionResult GetCarUsage([FromQuery] int parentId, [FromQuery] int days)
     {
         //Check if who is logged in
